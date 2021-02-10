@@ -176,7 +176,3 @@ const SettingsPage = ({ navigation }) => {
 };
 
 export default SettingsPage;
-
-SettingsPage.navigationOptions = () => ({
-  title: I18n.t('SettingsTitle'),
-});

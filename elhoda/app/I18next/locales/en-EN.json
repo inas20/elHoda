@@ -17,5 +17,10 @@
   "DarkMode": "Dark Mode",
   "DarkModeOff": "Dark Mode Off",
   "DarkModeOn": "Dark Mode On",
-  "Cancel": "Cancel"
+  "Cancel": "Cancel",
+  "AyahCopy":"Ayah is Copied",
+  "LookForTafseer" :"See Tafseer",
+  "CopyVerse":"Copy Verse",
+  "ShareVerse": "Share Verse",
+  "PlayVerse": "Play Verse"
 }

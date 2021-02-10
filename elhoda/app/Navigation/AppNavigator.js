@@ -1,7 +1,5 @@
 import React from 'react';
 import I18n from 'i18next';
-import { createAppContainer } from 'react-navigation';
-import { createStackNavigator } from 'react-navigation-stack';
 
 import AboutPage from '../Containers/AboutPage/AboutPage.component';
 import QuranList from '../Containers/QuranListPage/QuranList.container';
@@ -13,48 +11,53 @@ import { FontType } from '../Themes/Fonts';
 import { fromRight } from '../Utils/Transition';
 import { HeaderComponent } from '../Components/HeaderSurahList/HeaderSurahList.component';
 
-const AppStack = createStackNavigator(
-  {
-    SplashScreen: {
-      screen: SplashScreen,
-    },
-    AboutPage: {
-      screen: AboutPage,
-    },
-    SettingsPage: {
-      screen: SettingsPage,
-    },
-    QuranList: {
-      screen: QuranList,
-      navigationOptions: {
-        header: props => (
-          <HeaderComponent title={I18n.t('AppTitle')} {...props} />
-        ),
-      },
-    },
-    QuranDetail: {
-      screen: QuranDetail,
-    },
-  },
-  {
-    defaultNavigationOptions: {
-      headerPressColorAndroid: Colors.rippleColor,
-      headerStyle: {
-        borderBottomWidth: 0.5,
-        borderBottomColor: Colors.iron,
-        elevation: 0,
-      },
-      headerTitleStyle: {
-        fontFamily: FontType.semiBold,
-        fontSize: 18,
-        marginLeft: 0,
-      },
-      headerTintColor: Colors.black,
-    },
-    transitionConfig: () => fromRight(700),
-  },
-);
 
-const AppContainer = createAppContainer(AppStack);
+import { createStackNavigator } from '@react-navigation/stack';
+import { NavigationContainer } from '@react-navigation/native';
 
-export default AppContainer;
+const Stack = createStackNavigator();
+
+
+function AppStack (){
+  return(
+      <NavigationContainer>
+           {/* mandtory to write initialRouteName */}
+        <Stack.Navigator initialRouteName = "SplashScreen"
+              screenOptions={{
+                transitionConfig: () => fromRight(700),
+                headerPressColorAndroid: Colors.rippleColor,
+              
+                headerStyle: {
+                  borderBottomWidth: 0.5,
+                  borderBottomColor: Colors.iron,
+                  elevation: 0,
+                },
+                headerTitleStyle: {
+                  fontFamily: FontType.semiBold,
+                  fontSize: 18,
+                  marginLeft: 0,
+                },
+                headerTintColor: Colors.black,
+              }}
+          > 
+            <Stack.Screen name = "Splash" component= {SplashScreen} />
+            <Stack.Screen name = "AboutPage" component= {AboutPage}  options={{title: I18n.t('AboutTitle')}} />
+            <Stack.Screen name = "SettingsPage" component= {SettingsPage} options={{title: I18n.t('SettingsTitle')}}/>
+            <Stack.Screen 
+              name = "QuranList" 
+              component= {QuranList} 
+              options={{ header: props => (
+                  <HeaderComponent title={I18n.t('AppTitle')} {...props} />
+                ),}} 
+              />
+            <Stack.Screen name = "QuranDetail" component= {QuranDetail} 
+             
+            />
+        </Stack.Navigator>
+      </NavigationContainer>
+  )
+}
+
+
+
+export default AppStack;

@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, useRef, Fragment } from 'react';
+import React, { useState, useEffect, useRef, Fragment, useLayoutEffect } from 'react';
 import {
   View,
   Text,
@@ -34,34 +34,56 @@ function QuranDetail(props) {
     renderDetailSurah();
   }, []);
 
+
+  useLayoutEffect(()=>{
+    const {dataSurah} = props.route.params;
+    
+    const suratName = dataSurah.surat_name;
+    const suratArabic = dataSurah.surat_text;
+    const suratTranslate = dataSurah.surat_terjemahan;
+    const countAyat = dataSurah.count_ayat;
+    
+    props.navigation.setOptions({
+        headerTitle: (
+          <HeaderSurahDetail
+            suratName={suratName}
+            suratArabic={suratArabic}
+            suratTranslate={suratTranslate}
+            countAyat={countAyat}
+          />
+        ),
+    })
+
+},[props.navigation]);
+
   const quranOptions = [
     {
       icon: 'play',
-      title: 'Mainkan Surat',
+      title: I18n.t('PlayVerse'),
       action: () => null,
     },
     {
       icon: 'book-open-variant',
-      title: 'Lihat Tafsir',
+      title: I18n.t('AyahCopy'),
       action: () => null,
     },
     {
       icon: 'content-copy',
-      title: 'Salin Ayat',
+      title:  I18n.t('CopyVerse'),
       action: () => onTapCopy(),
     },
     {
       icon: 'share-variant',
-      title: 'Bagikan Ayat',
+      title: I18n.t('ShareVerse'),
       action: () => onTapShare(),
     },
   ];
 
   const renderDetailSurah = async () => {
-    const { getDetailQuran, navigation } = props;
+    const { getDetailQuran } = props;
 
-    const surahId = get(navigation, 'state.params.dataSurah.id');
-    const countAyat = get(navigation, 'state.params.dataSurah.count_ayat');
+    const surahId = get(props, 'route.params.dataSurah.id');
+    const countAyat = get(props, 'route.params.dataSurah.count_ayat');
 
     const payload = {
       surahId,
@@ -105,7 +127,7 @@ function QuranDetail(props) {
     Clipboard.setString(
       `${rbSheetData.aya_text}\n\n${rbSheetData.translation_aya_text}`,
     );
-    ToastAndroid.show('Ayat disalin', ToastAndroid.SHORT);
+    ToastAndroid.show(I18n.t('AyahCopy'), ToastAndroid.SHORT);
     refRBSheet.current.close();
   };
 
@@ -136,8 +158,7 @@ function QuranDetail(props) {
   };
 
   const renderQuranOptions = () => {
-    const { navigation } = props;
-    const surahName = get(navigation, 'state.params.dataSurah.surat_name', '');
+    const surahName = get(props, 'route.params.dataSurah.surat_name', '');
     return (
       <View style={Styles.bsContainer}>
         <StatusBar
@@ -176,6 +197,7 @@ function QuranDetail(props) {
 
   const renderData = () => {
     const { dataAyat, refreshing } = props;
+    console.log('dataAyat---', props)
     return (
       <FlatList
         data={dataAyat}
@@ -200,28 +222,6 @@ function QuranDetail(props) {
   );
 }
 
-QuranDetail.navigationOptions = ({
-  navigation: {
-    state: {
-      params: { dataSurah },
-    },
-  },
-}) => {
-  const suratName = dataSurah.surat_name;
-  const suratArabic = dataSurah.surat_text;
-  const suratTranslate = dataSurah.surat_terjemahan;
-  const countAyat = dataSurah.count_ayat;
-  return {
-    headerTitle: (
-      <HeaderSurahDetail
-        suratName={suratName}
-        suratArabic={suratArabic}
-        suratTranslate={suratTranslate}
-        countAyat={countAyat}
-      />
-    ),
-  };
-};
 
 const Styles = StyleSheet.create({
   bsContainer: {

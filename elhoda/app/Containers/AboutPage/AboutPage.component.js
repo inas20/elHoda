@@ -20,7 +20,3 @@ const AboutPage = () => {
 };
 
 export default AboutPage;
-
-AboutPage.navigationOptions = () => ({
-  title: I18n.t('AboutTitle'),
-});

@@ -17,5 +17,10 @@
   "DarkMode": "Mode Gelap",
   "DarkModeOff": "Mode Gelap Hidup",
   "DarkModeOn": "Mode Gelap Mati",
-  "Cancel": "Batal"
+  "Cancel": "Batal",
+  "AyahCopy": "Ayat disalin",
+  "LookForTafseer":"Lihat Tafsir",
+  "CopyVerse":"Salin Ayat",
+  "ShareVerse": "Bagikan Ayat",
+  "PlayVerse":"Mainkan Surat"
 }
